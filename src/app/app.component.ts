@@ -66,7 +66,7 @@ export class AppComponent {
   }
 
   submitImage() {
-    this.http.post(`http://localhost:3000/image/add`, this.base64textString, httpOptions)
+    this.http.post(`http://localhost:3000/myapp/image/add`, this.base64textString, httpOptions)
       .subscribe(data => {
           console.log(data);
         }
