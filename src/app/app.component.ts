@@ -17,31 +17,30 @@ export class AppComponent {
 
   }
 
+  base64textString: any;
   handleFileInput(event: any) {
-    this.filesToUpload = event.target.files;
-    // this.filesToUpload = <Array<File>>event.target.files;
-    // if (event.target.files && event.target.files[0]) {
-    //   let reader = new FileReader();
-    //
-    //   reader.onload = (event: any) => {
-    //     this.url = event.target.result;
-    //   };
-    //
-    //   reader.readAsDataURL(event.target.files[0]);
-    //   console.log(reader);
-    // }
+    let files = event.target.files;
+    let file = files[0];
+    if (files && file) {
+      let reader = new FileReader();
+
+      reader.onload = this._handleReaderLoaded.bind(this);
+
+      reader.readAsBinaryString(file);
+    }
+  }
+  _handleReaderLoaded(readerEvt) {
+    let binaryString = readerEvt.target.result;
+    this.base64textString = btoa(binaryString);
+    console.log(btoa(binaryString));
   }
 
   submitImage() {
-    let file: File = this.filesToUpload[0];
-    const formData: FormData = new FormData();
-    formData.append('uploadFile', file, file.name);
-    console.log(formData, this.filesToUpload);
-    this.http.post(`http://localhost:3000/image/add`, formData)
+    this.http.post(`http://localhost:3000/myapp/image/add`, this.base64textString)
       .subscribe(data => {
-        console.log(data);
-      }
-    );
-  }
+          console.log(data);
+        }
+      );
+    }
 
 }
