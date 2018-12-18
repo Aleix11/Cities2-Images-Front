@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {RequestOptions} from "@angular/http";
+
+const  httpOptions = { headers: new HttpHeaders({
+  'Access-Control-Allow-Origin': '*',
+})
+};
 
 @Component({
   selector: 'app-root',
@@ -16,6 +20,32 @@ export class AppComponent {
   constructor(private http: HttpClient) {
 
   }
+  // this.filesToUpload = <Array<File>>event.target.files;
+  // if (event.target.files && event.target.files[0]) {
+  //   let reader = new FileReader();
+  //
+  //   reader.onload = (event: any) => {
+  //     this.url = event.target.result;
+  //   };
+  //
+  //   reader.readAsDataURL(event.target.files[0]);
+  //   console.log(reader);
+  // }
+  // handleFileInput(event: any) {
+  //   this.filesToUpload = event.target.files;
+  // }
+  //
+  // submitImage() {
+  //   let file: File = this.filesToUpload[0];
+  //   const formData: FormData = new FormData();
+  //   formData.append('uploadFile', file, file.name);
+  //   console.log(formData, this.filesToUpload);
+  //   this.http.post(`http://localhost:8000/test`, formData, httpOptions)
+  //     .subscribe(data => {
+  //       console.log(data);
+  //     }
+  //   );
+  // }
 
   base64textString: any;
   handleFileInput(event: any) {
