@@ -6,7 +6,7 @@ import {AppComponent, PizzaPartyComponent} from './app.component';
 import {
   MatButtonModule,
   MatCardModule,
-  MatIconModule, MatInputModule, MatSelectModule,
+  MatIconModule, MatInputModule, MatSelectModule, MatSnackBarModule,
   MatTableModule,
   MatTabsModule,
   MatToolbarModule
@@ -17,6 +17,10 @@ import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
+    AppComponent,
+    PizzaPartyComponent
+  ],
+  entryComponents: [
     AppComponent,
     PizzaPartyComponent
   ],
@@ -32,9 +36,11 @@ import { HttpClientModule } from '@angular/common/http';
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
+    MatSnackBarModule,
     MatCardModule
   ],
-  providers: [AppComponent],
+  providers: [AppComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

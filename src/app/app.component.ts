@@ -17,6 +17,8 @@ export class AppComponent {
   // public filesToUpload: Array<File> = [];
   public filesToUpload: FileList;
   public url = '';
+  result: any;
+
 
   constructor(private http: HttpClient,
               public snackBar: MatSnackBar) {
@@ -25,6 +27,12 @@ export class AppComponent {
           console.log(data);
         }
       );
+
+    this.http.get<String>(`http://localhost:3000/myapp/image/statistics`, this.base64textString)
+      .subscribe(data => {
+        this.result = data;
+      }
+    );
   }
 
   base64textString: any;
