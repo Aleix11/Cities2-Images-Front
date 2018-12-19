@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {MAT_SNACK_BAR_DATA, MatSnackBar} from "@angular/material";
 
 const  httpOptions = { headers: new HttpHeaders({
   'Access-Control-Allow-Origin': '*',
@@ -17,35 +18,14 @@ export class AppComponent {
   public filesToUpload: FileList;
   public url = '';
 
-  constructor(private http: HttpClient) {
-
+  constructor(private http: HttpClient,
+              public snackBar: MatSnackBar) {
+    this.http.get(`http://localhost:3000/myapp/image/hi`, httpOptions)
+      .subscribe(data => {
+          console.log(data);
+        }
+      );
   }
-  // this.filesToUpload = <Array<File>>event.target.files;
-  // if (event.target.files && event.target.files[0]) {
-  //   let reader = new FileReader();
-  //
-  //   reader.onload = (event: any) => {
-  //     this.url = event.target.result;
-  //   };
-  //
-  //   reader.readAsDataURL(event.target.files[0]);
-  //   console.log(reader);
-  // }
-  // handleFileInput(event: any) {
-  //   this.filesToUpload = event.target.files;
-  // }
-  //
-  // submitImage() {
-  //   let file: File = this.filesToUpload[0];
-  //   const formData: FormData = new FormData();
-  //   formData.append('uploadFile', file, file.name);
-  //   console.log(formData, this.filesToUpload);
-  //   this.http.post(`http://localhost:8000/test`, formData, httpOptions)
-  //     .subscribe(data => {
-  //       console.log(data);
-  //     }
-  //   );
-  // }
 
   base64textString: any;
   handleFileInput(event: any) {
@@ -68,9 +48,38 @@ export class AppComponent {
   submitImage() {
     this.http.post(`http://localhost:3000/myapp/image/add`, this.base64textString)
       .subscribe(data => {
-          console.log(data);
+        let result: String = '';
+        if (data === 0) {
+          result = 'Ascensor';
+        } else if (data === 1) {
+          result = 'Floristeria';
+        } else if (data === 2) {
+          result = 'Armari';
+        }
+        this.snackBar.openFromComponent(PizzaPartyComponent, {
+          duration: 10000,
+          data: {
+            option: result
+          }
+        });
         }
       );
     }
 
+}
+
+
+
+@Component({
+  selector: 'snack-bar-component-example-snack',
+  templateUrl: 'snack-bar-component-example-snack.html',
+  styles: [`
+    .example-pizza-party {
+      color: hotpink;
+    }
+  `],
+})
+export class PizzaPartyComponent {
+  constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) {
+  }
 }
